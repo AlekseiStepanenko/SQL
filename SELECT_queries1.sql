@@ -12,10 +12,10 @@ SELECT name FROM artists
 WHERE name NOT LIKE '% %';
 
 SELECT title FROM tracks
-WHERE title ILIKE 'my '
-OR title ILIKE ' my '
+WHERE title ILIKE 'my %'
+OR title ILIKE '% my %'
 OR title ILIKE 'my'
-OR title ILIKE ' my';
+OR title ILIKE '% my';
 
 SELECT title, COUNT(artist_id) FROM genres g
 LEFT JOIN genres_artists ga ON g.id = ga.genre_id
@@ -48,8 +48,7 @@ SELECT distinct a.title FROM albums a
 JOIN artists_albums aa ON a.id = aa.album_id
 JOIN genres_artists ga ON aa.artist_id = ga.artist_id
 JOIN genres g ON ga.genre_id = g.id
-WHERE ga.genre_id NOT IN(1)
-GROUP BY a.title
+GROUP BY a.title, ga.artist_id
 HAVING COUNT(ga.artist_id) > 1;
 
 SELECT t.title FROM tracks t
